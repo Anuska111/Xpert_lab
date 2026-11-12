@@ -1,68 +1,72 @@
-# Xpert Personal Context Engine — Write-up
+# Xpert Cold Start — Technical Write-up
 
-## 1. What I Focused On and Why
+## 1. What I Focused On, and Why
 
-My goal was to build a system that can analyse WhatsApp conversations and extract useful personal context.
+My objective was to build a working pipeline that converts WhatsApp conversations into structured personal context.
 
-The system focuses on identifying people, circles, organisations, conversations, goals and open tasks. The main idea is to help an assistant understand what is happening in a person's life before deciding where it can provide useful support.
+I focused on three major areas:
 
-I prioritised extracting structured information from unstructured chat messages while keeping the output compatible with the provided schema.
+- **People, organisations and chats:** Identifying relationships and connecting conversations to the appropriate people or organisations.
+- **Open loops:** Detecting requests, commitments, follow-ups and deadlines, and tracking whether they were completed.
+- **Goals:** Identifying longer-term intentions rather than treating every short-term task as a goal.
+
+I prioritised building a complete, schema-valid pipeline first. Chat association and task extraction were particularly important because they provide the foundation for understanding who is involved and what still needs attention.
+
+I also aimed to keep the solution modular so that individual components could be improved independently.
 
 ## 2. My Approach
 
-I implemented the solution in Python using a modular architecture.
+The implementation uses Python with a modular architecture.
 
-- **solution.py:** Main entry point that processes the input directory and generates the final JSON output.
-- **task_engine.py:** Uses message patterns, keywords and contextual rules to identify requests, commitments, follow-ups and completion messages.
-- **context_engine.py:** Handles context extraction, including goals and open-loop information, with optional LLM support.
-- **nlp_engine.py:** Supports text preprocessing and language-related processing.
-- **ml_engine.py:** Contains the machine-learning-related processing components.
-- **llm.py:** Handles the LLM integration.
-- **check.py:** Validates and evaluates the generated output.
+**Data processing:** The pipeline loads `chats.jsonl`, `messages.jsonl` and `seed.json`. Messages are grouped by chat and processed chronologically.
 
-The pipeline reads the chat data, processes messages, groups information by conversation and extracts structured entities and tasks. It then generates a JSON output following the expected schema.
+**People and circles:** Relationship and activity signals are derived using keyword patterns, chat names, participant information and message activity.
 
-I used a combination of rule-based extraction, contextual matching and optional LLM-based processing.
+**Organisations and chats:** The implementation uses organisation-name matching and participant associations to connect chats to organisations or individual people.
 
-## 3. Evaluation and Results
+**Goals:** The current implementation uses explicit goal-related expressions as a rule-based fallback. An optional LLM-based extraction path is also present, with validation of evidence message IDs.
 
-I evaluated my implementation using the provided development dataset and checker.
+**Open loops:** Rule-based patterns classify messages as requests, commitments, questions, deadlines or follow-ups. Completion phrases are matched against earlier requests to infer task status.
 
-My latest local evaluation score was:
+**Where to help:** The current rule-based implementation assigns assistance or reminder suggestions based on task type. Context-sensitive decisions about when to leave a conversation alone remain an area for improvement.
 
-**19.1 / 56**
+The project was initially explored using Google Colab and then organised into a modular local implementation in PyCharm.
 
-The system successfully processes 138 chats and identifies people, organisations, open tasks and completion candidates.
+The final output is generated as structured JSON and evaluated using the checker supplied with the challenge.
 
-The evaluation also helped identify areas that need improvement, particularly circle classification, organisation extraction and open-task detection.
+## 3. What It Costs
 
-## 4. What It Costs
+The latest local evaluation used the rule-based fallback because the required LLM environment variables were unavailable.
 
-The local rule-based processing does not require an external API.
+Therefore:
 
-The LLM integration is optional and uses environment variables for configuration:
+- Model used in the latest local run: None.
+- LLM API calls in that run: None.
+- Model API cost for that local run: $0 per 1,000 messages.
+- Optional LLM client: `llm.py`, which supports an OpenAI-compatible API through environment variables.
 
-- LLM_BASE_URL
-- LLM_API_KEY
-- LLM_MODEL
+The repository contains an optional LLM-based extraction path, but I have not completed a model-backed run or measured its token usage. Consequently, I cannot claim a measured cost for that path or provide a verified model-specific price.
 
-When an LLM is configured, API usage and cost depend on the selected model and the number of tokens processed. I have not claimed a fixed API cost because it depends on the evaluation environment.
+## 4. Where It Is Wrong
 
-## 5. Where It Is Wrong and What I Would Improve
+The latest development-set evaluation scored **19.1 / 56**.
 
-The current implementation has several limitations:
+The results indicate the following weaknesses:
 
-- Rule-based patterns can miss indirect requests and implied commitments.
-- Short messages may be difficult to interpret without sufficient conversation history.
-- People and organisation classification can produce incorrect predictions.
-- Completion messages may not always match the correct earlier request.
-- Goal extraction needs stronger contextual reasoning.
-- Deciding when an assistant should intervene and when it should stay out requires more nuanced context.
+- **Circles (2.9 / 12):** Keyword-based relationship inference can confuse colleagues, friends, relatives and staff, especially when the relationship is only implied by conversation context.
+- **Organisations (2.1 / 8):** Some organisation associations rely on specific names and chat-name patterns. This is fragile when names change or a group has an ambiguous title.
+- **Chats (6.1 / 8):** Chat association is the strongest component, but participant-frequency assumptions can still assign group conversations incorrectly.
+- **Open loops found (3.9 / 14):** Broad request and commitment patterns can detect ordinary messages as tasks, while indirect commitments and contextual follow-ups may be missed.
+- **Open loops closed correctly (4.0 / 14):** Completion matching based on phrases and message proximity can incorrectly mark a task as completed or leave a completed task open.
+- **Goals:** The latest local run produced zero goals. The fallback recognises only a small set of explicit expressions, so goals expressed indirectly are likely to be missed.
+- **Where to help:** The current rules do not sufficiently distinguish between situations requiring assistance, a reminder, or no intervention. In particular, the `leave` decision needs stronger contextual reasoning.
 
-With more development time, I would improve entity resolution, contextual task matching, goal extraction and intervention decisions. I would also evaluate the system on more diverse conversations and reduce false positives.
+Goals and Where-to-help were not labelled in the local development evaluation, so their accuracy cannot be measured from this score.
 
-## 6. Final Note
+These results are from the development set and should not be treated as a prediction of hidden-set performance.
 
-This project was developed as a modular personal-context extraction pipeline. My focus was on building a working system, evaluating it with the supplied checker and identifying the limitations through experimentation.
+## Conclusion
 
-The current score reflects the development-stage implementation, and there is significant scope for further improvement.
+This project gave me practical experience in processing conversational data, designing modular extraction pipelines, validating structured outputs and analysing evaluation results.
+
+The current implementation establishes a working baseline, while the evaluation highlights where stronger contextual reasoning, better generalisation and more conservative assistance decisions are needed.
