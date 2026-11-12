@@ -1,3 +1,4 @@
+
 # Challenge data - never commit
 data/
 example/
@@ -12,7 +13,7 @@ submission_test.json
 *_candidates.json
 message_analysis.json
 
-# Python environment
+# Python
 .venv/
 venv/
 __pycache__/
@@ -24,7 +25,7 @@ __pycache__/
 .env
 .env.*
 
-# Temporary and backup files
+# Temporary files
 *_backup*.json
 *_backup*.py
 *_before_final.py
