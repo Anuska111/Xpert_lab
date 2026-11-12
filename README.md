@@ -1,106 +1,227 @@
-# Cold Start: starter kit
+# Xpert — WhatsApp Personal Context Analysis
 
-The challenge is on https://goals.xpert.chat/w/intern. Read it first. This kit gets you running
-before the real data arrives.
+<p align="center">
+  **From everyday conversations to structured personal context.**
+</p>
 
-## What's here
+<p align="center">
+  ![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python)
+  ![Status](https://img.shields.io/badge/Status-Submitted%20for%20Evaluation-orange)
+  ![Challenge](https://img.shields.io/badge/Xpert-Winter%20Internship-purple)
+</p>
 
-| File | What it is |
+---
+
+## Overview
+
+**Xpert** is a WhatsApp personal context analysis project developed as part of the Xpert Winter Internship Challenge 2026.
+
+People share important information through everyday conversations: plans, commitments, relationships, goals, and pending tasks. However, this information is often scattered across multiple chats.
+
+This project aims to transform unstructured WhatsApp conversation data into structured personal context that can help a personal assistant understand:
+
+- Who the important people are.
+- Which organisations appear in conversations.
+- What different chats are about.
+- Which goals and intentions are expressed.
+- What tasks and commitments are still pending.
+- Where an assistant could potentially provide useful help.
+
+## Key Objectives
+
+| Component | Objective |
 |---|---|
-| `run.sh` | The one command we run: `./run.sh <input_dir> <output.json>`. It must finish in 30 minutes |
-| `solution.py` | A naive starting point that writes a valid output. It scores badly on purpose. Replace it |
-| `llm.py` | A tiny client for any OpenAI-compatible API. It logs token use to `usage.jsonl` |
-| `schema.json` | The exact shape of `output.json` |
-| `check.py` | Checks your output's shape, and scores it if the folder has answers |
-| `example/` | A tiny made-up person, Meera: 6 chats, 29 messages, with the answers |
-| `WRITEUP.md` | The template for your write-up |
-| `ai-logs/` | Where your AI session transcripts go |
+| Circles | Identify people and their connections |
+| Organisations | Extract organisations mentioned in conversations |
+| Chats | Understand and organise conversations |
+| Goals | Identify personal goals and intentions |
+| Open Loops | Detect pending tasks and commitments |
+| Where to Help | Identify opportunities for useful assistance |
 
-Python 3.9 or later. Nothing to install. You can write your solution in any language, as long as
-`run.sh` runs it on a clean Linux machine.
+## Technical Approach
 
-## Try it now
+The project uses a modular Python-based architecture to process conversation data and generate structured output.
+
+The implementation includes text processing, rule-based extraction, context analysis, task detection, and optional LLM-related functionality.
+
+### Project Modules
+
+| File | Purpose |
+|---|---|
+| `solution.py` | Main solution and execution pipeline |
+| `nlp_engine.py` | NLP-related text processing |
+| `ml_engine.py` | ML-related processing |
+| `context_engine.py` | Context analysis |
+| `task_engine.py` | Task and open-loop processing |
+| `llm.py` | LLM-related functionality |
+| `schema.json` | Structured output schema |
+| `check.py` | Evaluation using the provided checker |
+
+## Project Structure
+
+```text
+Xpert_lab/
+│
+├── ai-logs/
+│   ├── README.md
+│   ├── project-development.md
+│   ├── debugging.md
+│   └── evaluation-and-improvements.md
+│
+├── solution.py
+├── nlp_engine.py
+├── ml_engine.py
+├── context_engine.py
+├── task_engine.py
+├── llm.py
+├── check.py
+├── schema.json
+├── run.sh
+├── README.md
+├── WRITEUP.md
+└── .gitignore
+```
+
+*Local challenge datasets and generated output files are intentionally excluded from version control.*
+
+## Getting Started
+
+### Requirements
+
+- Python 3.11
+- Git
+- Xpert challenge starter kit and locally available challenge dataset
+
+### 1. Clone the repository
 
 ```bash
-./run.sh example out.json
-python3 check.py example out.json
+git clone https://github.com/Anuska111/Xpert_lab.git
+cd Xpert_lab
 ```
 
-The checker prints the score for each part. The naive solution gets the chats right and little
-else. That's your starting line.
-
-## When the real data arrives
-
-Download it from the challenge page and unzip it inside this folder. It makes `data/dev/` (already in `.gitignore`):
+### 2. Create a virtual environment
 
 ```bash
-./run.sh data/dev out.json
-python3 check.py data/dev out.json
+python -m venv .venv
 ```
 
-`data/dev` is the first two weeks with their answers. We run your code on the six weeks after, which
-you never see, with every name changed again. Open loops are scored on its last two weeks.
+Activate it on Windows:
 
-## The input
-
-```
-chats.jsonl      chat_id, name, is_group, participants (person ids; Arjun is "ME")
-messages.jsonl   id, chat_id, sender_id, sender_name, ts (unix seconds), kind, body, quoted_id
-seed.json        what the person told us at signup: some circles, some organisation names, a goal
-answers/         dev set only: answers.json
+```powershell
+.venv\Scripts\activate
 ```
 
-`kind` is `text`, `voice_transcript`, `image_caption` or `document`. `quoted_id` is always null: the export kept no quoted replies. Voice transcripts are rare: none
-in the dev set, about 50 in the hidden set.
+### 3. Install project dependencies
 
-## The output
+Install the dependencies required by the project in your Python environment.
 
-See `schema.json`, and the challenge page for what each part means. In short:
+### 4. Add the challenge dataset
 
-```json
-{
-  "people":        [{"id": "P03", "circle": "staff", "links": [{"organisation": "home", "link": "supports"}], "looks_after": ["P04"]}],
-  "organisations": [{"id": "home", "name": "Home", "type": "residence", "side": "home", "role": "owner"}],
-  "chats":         [{"chat_id": "C03", "organisation": "home"}, {"chat_id": "C01", "person": "P01"}],
-  "goals":         [{"title": "Run the half marathon in January", "area": "health", "type": "milestone", "horizon": "3mo", "evidence": ["M026"]}],
-  "open_loops":    [{"title": "Decide whether to take Zest", "type": "question", "owner": "ME", "chat_id": "C04",
-                     "source_msg": "M016", "due": "2026-10-26", "status": "open", "closed_by": null,
-                     "help": {"action": "remind", "remind_at": "2026-10-25T10:00:00+05:30"}}]
-}
+Place the permitted challenge dataset in the expected local `data/` directory.
+
+**Note:** The challenge dataset is not included in this repository.
+
+## Run the Solution
+
+Generate structured output:
+
+```bash
+python solution.py data/dev final_output.json
 ```
 
-## How the checker scores
+Evaluate the generated output:
 
-The same rules we use on the hidden set. They cover 74 of the 100 points.
+```bash
+python check.py data/dev final_output.json
+```
 
-- **Circles (12):** share of people with the right circle. People whose circle is in `seed.json`
-  don't count.
-- **Organisations (8):** we pair your organisations with ours by overlap of the chats and people
-  attached to each. Extra or missing organisations lower the score.
-- **Chats (8):** share of chats tied to the right person, or to your organisation paired with ours.
-- **Goals (8):** a goal matches ours when the area is the same and at least one evidence message
-  is shared. The score balances how many of yours are right with how many of ours you found. The
-  goal in `seed.json` doesn't count.
-- **Open loops found (14):** a loop matches ours when your `source_msg` is one of the messages we
-  accept for it. The score balances how many of yours are real with how many of ours you found.
-- **Open loops closed right (14):** for each loop you found, the right status counts 1. Calling a
-  loop done or dropped when it's still open costs 1. Divided by all of our loops.
-- **Where to help (10):** for each open loop we labelled, the right action counts 1. Saying
-  `assist` or `remind` where we said `leave` costs 1.
+The checker reports the output validity and evaluation performance across the labelled components.
 
-Cost (12), the write-up (7) and runs with one command (7) are scored by us.
+## Latest Evaluation Results
 
-## The answers format
+<details>
+<summary><strong>Local Checker Results — 19.1 / 56</strong></summary>
 
-`answers/answers.json` has the same shape as your output, with three differences in `open_loops`
-(and, on the hidden set, a `loops_scored_from` time: loops raised before it are not scored):
-`source_msgs` lists every message we accept as the source, `closing_msgs` lists the messages that
-show it closed, and `help` is just the action, with a `why`.
+The latest local evaluation was performed using the provided Xpert checker.
 
-## Cost
+| Evaluation Component | Score | Points |
+|---|---:|---:|
+| Circles | 0.24 | 2.9 / 12 |
+| Organisations | 0.26 | 2.1 / 8 |
+| Chats | 0.77 | 6.1 / 8 |
+| Goals | Not labelled | — |
+| Open loops found | 0.28 | 3.9 / 14 |
+| Open loops closed right | 0.28 | 4.0 / 14 |
+| Where to help | Not labelled | — |
+| **Total data score** | | **19.1 / 56** |
 
-The hidden set is about 15,000 messages, so plan for that size: batch your calls.
+</details>
 
-Use any model with an OpenAI-compatible API. Read `LLM_BASE_URL`, `LLM_API_KEY` and `LLM_MODEL`
-from the environment. When we score, we set them to our own key and the model you named, and count
-every token. `llm.py` does this for you and logs what each call used.
+### Extraction Summary
+
+Latest local execution produced:
+
+| Extracted Information | Count |
+|---|---:|
+| People | 286 |
+| Organisations | 5 |
+| Chats | 138 |
+| Goals | 0 |
+| Open loops | 246 |
+| Completed loops | 51 |
+| Pending loops | 195 |
+
+**Important:** Extraction counts represent detected records, not necessarily correctly identified records. Accuracy is evaluated separately by the checker.
+
+The challenge organisers separately assess cost, write-up quality, and one-command execution. Therefore, 19.1/56 is the local data score, not the final overall challenge score.
+
+## Current Limitations
+
+- Person and relationship identification need improvement.
+- Organisation extraction needs better contextual understanding.
+- Goal extraction is not yet producing results in the latest local run.
+- Open-loop detection requires improved precision.
+- LLM functionality was unavailable during the latest run, so the existing rule-based extraction was retained.
+
+## Future Improvements
+
+- Improve entity and relationship extraction.
+- Introduce stronger contextual goal detection.
+- Distinguish pending commitments from completed tasks more accurately.
+- Reduce false-positive task detection.
+- Improve recommendations for where an assistant can help.
+- Evaluate improvements against the provided checker.
+
+## AI-Assisted Development
+
+AI tools were used as development assistants for:
+
+- Understanding the challenge requirements.
+- Planning the project structure.
+- Learning relevant concepts.
+- Debugging Python and Git issues.
+- Interpreting checker results.
+- Documenting development decisions.
+
+Relevant AI development records are maintained in the `ai-logs/` directory.
+
+## Data Privacy
+
+- Challenge conversation data is kept locally.
+- Dataset files are excluded from Git commits.
+- Generated local outputs are excluded.
+- API keys and environment secrets are not included in the repository.
+
+## Author
+
+**Anuska Biswas**
+
+GitHub: [Anuska111](https://github.com/Anuska111)
+
+Repository: [Xpert_lab](https://github.com/Anuska111/Xpert_lab)
+
+---
+
+<p align="center">
+  **Xpert Winter Internship Challenge · 2026**
+</p>
