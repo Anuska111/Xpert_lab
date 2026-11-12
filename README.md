@@ -279,9 +279,12 @@ Development records are maintained in the `ai-logs/` directory.
 
 **Anuska Biswas**
 
-GitHub: [@Anuska111](https://github.com/Anuska111)
+GitHub: [@Anuska111](https://github.com/Anuska111) 
+
 email:anuska.biswas.mec24@itbhu.ac.in
+
 3rd Year
+
 IIT(BHU)Varanasi
 
 Project Repository: [Xpert_lab](https://github.com/Anuska111/Xpert_lab)
