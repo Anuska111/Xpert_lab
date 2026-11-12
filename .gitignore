@@ -40,3 +40,6 @@ example/
 solution_before_final.py
 task_engine_before_final.py
 match_analysis.py..py
+# Keep AI development logs in GitHub
+!ai-logs/
+!ai-logs/*.md
