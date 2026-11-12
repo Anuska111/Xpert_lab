@@ -1,0 +1,39 @@
+# The challenge data stays on your machine. Never commit it.
+data/
+*.zip
+usage.jsonl
+output.json
+.env
+__pycache__/
+# Python environment
+.venv/
+venv/
+.idea/
+*.pyc
+
+# Generated outputs
+out.json
+final_output.json
+submission_test.json
+*_backup*.json
+*_backup*.py
+
+# Secrets
+.env
+.env.*
+@"
+
+# Local debugging and generated files
+ai-logs/
+*_candidates.json
+message_analysis.json
+*_backup*.py
+*_backup*.json
+solution_baseline.py
+inspect_*.py
+analyze_*.py
+compare_*.py
+match_analysis.py
+test_*.py
+example/
+"@ | Add-Content .gitignore
