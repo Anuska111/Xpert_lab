@@ -37,3 +37,6 @@ match_analysis.py
 test_*.py
 example/
 "@ | Add-Content .gitignore
+solution_before_final.py
+task_engine_before_final.py
+match_analysis.py..py
