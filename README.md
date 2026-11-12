@@ -1,63 +1,128 @@
-# Xpert — WhatsApp Personal Context Analysis
+# XPERT | WhatsApp Personal Context Intelligence
 
 <p align="center">
-  **From everyday conversations to structured personal context.**
+  <strong>Turning everyday conversations into meaningful personal context.</strong>
+  <br/>
+  An AI-assisted personal context extraction system built for the Xpert Winter Internship Challenge 2026.
 </p>
 
 <p align="center">
-  ![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python)
-  ![Status](https://img.shields.io/badge/Status-Submitted%20for%20Evaluation-orange)
-  ![Challenge](https://img.shields.io/badge/Xpert-Winter%20Internship-purple)
+  <img src="https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/Environment-Google%20Colab%20%7C%20PyCharm-orange" />
+  <img src="https://img.shields.io/badge/Output-Structured%20JSON-blue" />
+  <img src="https://img.shields.io/badge/Challenge-Xpert%202026-purple" />
 </p>
 
 ---
 
-## Overview
+## 01. Project Overview
 
-**Xpert** is a WhatsApp personal context analysis project developed as part of the Xpert Winter Internship Challenge 2026.
+Xpert is designed to understand the context hidden inside everyday WhatsApp conversations.
 
-People share important information through everyday conversations: plans, commitments, relationships, goals, and pending tasks. However, this information is often scattered across multiple chats.
+Important information is often scattered across multiple conversations — people, relationships, organisations, personal goals, commitments, and unfinished tasks.
 
-This project aims to transform unstructured WhatsApp conversation data into structured personal context that can help a personal assistant understand:
+The objective of this project is to transform unstructured chat data into structured information that can help a personal assistant understand a user's life and identify situations where assistance may be useful.
 
-- Who the important people are.
-- Which organisations appear in conversations.
-- What different chats are about.
-- Which goals and intentions are expressed.
-- What tasks and commitments are still pending.
-- Where an assistant could potentially provide useful help.
+Rather than treating conversations as isolated messages, the system aims to extract meaningful context from them.
 
-## Key Objectives
+## 02. What Does the System Extract?
 
-| Component | Objective |
+| Component | Description |
 |---|---|
-| Circles | Identify people and their connections |
-| Organisations | Extract organisations mentioned in conversations |
-| Chats | Understand and organise conversations |
-| Goals | Identify personal goals and intentions |
-| Open Loops | Detect pending tasks and commitments |
-| Where to Help | Identify opportunities for useful assistance |
+| **People & Circles** | Identifies people and their relationships |
+| **Organisations** | Extracts companies, institutions, and groups |
+| **Chats** | Processes and organises conversation information |
+| **Goals** | Identifies goals and intentions |
+| **Open Loops** | Detects pending tasks, promises, and commitments |
+| **Where to Help** | Identifies potential opportunities for assistant intervention |
 
-## Technical Approach
+## 03. Development Workflow
 
-The project uses a modular Python-based architecture to process conversation data and generate structured output.
+The project development involved two environments: Google Colab for initial exploration and experimentation, and PyCharm for the main implementation and local execution.
 
-The implementation includes text processing, rule-based extraction, context analysis, task detection, and optional LLM-related functionality.
+### Google Colab — Data Exploration & Experimentation
 
-### Project Modules
+Initial experimentation focused on understanding the conversation dataset and exploring possible processing approaches.
 
-| File | Purpose |
+- Dataset exploration and inspection.
+- Understanding WhatsApp conversation structures.
+- Initial data analysis and experimentation.
+- Reviewing extracted information and intermediate results.
+- Exploring approaches for personal context extraction.
+
+### PyCharm — Implementation & Execution
+
+The main solution was organised and implemented as a modular Python project.
+
+- Developing individual Python modules.
+- Integrating text and context processing.
+- Implementing task and open-loop extraction.
+- Generating structured JSON output.
+- Running local evaluations using the provided checker.
+
+### End-to-End Workflow
+
+```text
+       WhatsApp Conversations
+                 |
+                 v
+       Google Colab
+    Data Exploration & Analysis
+                 |
+                 v
+             PyCharm
+       Modular Python Development
+                 |
+                 v
+       Text & Context Processing
+                 |
+                 v
+       Entity and Task Extraction
+                 |
+                 v
+       Structured JSON Output
+                 |
+                 v
+       Official Xpert Checker
+                 |
+                 v
+       Evaluation & Improvements
+```
+
+## 04. Technical Architecture
+
+The implementation follows a modular approach, separating different responsibilities into individual Python files.
+
+| Module | Responsibility |
 |---|---|
-| `solution.py` | Main solution and execution pipeline |
-| `nlp_engine.py` | NLP-related text processing |
+| `solution.py` | Main execution pipeline |
+| `nlp_engine.py` | Text and language processing |
 | `ml_engine.py` | ML-related processing |
-| `context_engine.py` | Context analysis |
-| `task_engine.py` | Task and open-loop processing |
+| `context_engine.py` | Personal context analysis |
+| `task_engine.py` | Task and open-loop extraction |
 | `llm.py` | LLM-related functionality |
-| `schema.json` | Structured output schema |
-| `check.py` | Evaluation using the provided checker |
+| `schema.json` | Output structure definition |
+| `check.py` | Provided evaluation checker |
 
-## Project Structure
+## 05. Technology Stack
+
+<p>
+  <img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/Google_Colab-F9AB00?logo=googlecolab&logoColor=black" />
+  <img src="https://img.shields.io/badge/PyCharm-000000?logo=pycharm&logoColor=white" />
+  <img src="https://img.shields.io/badge/Git-F05032?logo=git&logoColor=white" />
+  <img src="https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white" />
+</p>
+
+- **Programming:** Python 3.11
+- **Exploration:** Google Colab
+- **Development:** PyCharm
+- **Version Control:** Git & GitHub
+- **Output:** Structured JSON
+- **Evaluation:** Xpert-provided checker
+- **Processing:** Rule-based extraction and modular text-processing logic
+
+## 06. Project Structure
 
 ```text
 Xpert_lab/
@@ -77,72 +142,72 @@ Xpert_lab/
 ├── check.py
 ├── schema.json
 ├── run.sh
-├── README.md
 ├── WRITEUP.md
+├── README.md
 └── .gitignore
 ```
 
-*Local challenge datasets and generated output files are intentionally excluded from version control.*
+*Local datasets, credentials, and generated output files are intentionally excluded from version control.*
 
-## Getting Started
+## 07. Installation & Execution
 
-### Requirements
+### Prerequisites
 
 - Python 3.11
 - Git
-- Xpert challenge starter kit and locally available challenge dataset
+- Xpert challenge starter kit
+- Locally available challenge dataset
 
-### 1. Clone the repository
+### Step 1 — Clone Repository
 
 ```bash
 git clone https://github.com/Anuska111/Xpert_lab.git
 cd Xpert_lab
 ```
 
-### 2. Create a virtual environment
+### Step 2 — Create Virtual Environment
 
 ```bash
 python -m venv .venv
 ```
 
-Activate it on Windows:
+Activate on Windows:
 
 ```powershell
 .venv\Scripts\activate
 ```
 
-### 3. Install project dependencies
+### Step 3 — Install Dependencies
 
-Install the dependencies required by the project in your Python environment.
+Install the dependencies required by the implementation in the Python environment.
 
-### 4. Add the challenge dataset
+### Step 4 — Add Dataset
 
-Place the permitted challenge dataset in the expected local `data/` directory.
+Place the permitted local challenge dataset inside the expected `data/` directory.
 
-**Note:** The challenge dataset is not included in this repository.
+The dataset is intentionally not included in this public repository.
 
-## Run the Solution
-
-Generate structured output:
+### Step 5 — Execute Solution
 
 ```bash
 python solution.py data/dev final_output.json
 ```
 
-Evaluate the generated output:
+### Step 6 — Evaluate Output
 
 ```bash
 python check.py data/dev final_output.json
 ```
 
-The checker reports the output validity and evaluation performance across the labelled components.
+## 08. Latest Evaluation Results
 
-## Latest Evaluation Results
+The solution was tested locally using the evaluation checker supplied with the Xpert challenge.
 
-<details>
-<summary><strong>Local Checker Results — 19.1 / 56</strong></summary>
-
-The latest local evaluation was performed using the provided Xpert checker.
+<p align="center">
+  <strong>LOCAL DATA EVALUATION</strong>
+  <br/>
+  <img src="https://img.shields.io/badge/Score-19.1%20%2F%2056-2563EB?style=for-the-badge" />
+</p>
 
 | Evaluation Component | Score | Points |
 |---|---:|---:|
@@ -155,11 +220,7 @@ The latest local evaluation was performed using the provided Xpert checker.
 | Where to help | Not labelled | — |
 | **Total data score** | | **19.1 / 56** |
 
-</details>
-
-### Extraction Summary
-
-Latest local execution produced:
+### Latest Extraction Summary
 
 | Extracted Information | Count |
 |---|---:|
@@ -171,57 +232,61 @@ Latest local execution produced:
 | Completed loops | 51 |
 | Pending loops | 195 |
 
-**Important:** Extraction counts represent detected records, not necessarily correctly identified records. Accuracy is evaluated separately by the checker.
+**Evaluation note:** Extraction counts are not equivalent to correct predictions. The checker evaluates the quality of the extracted information separately.
 
-The challenge organisers separately assess cost, write-up quality, and one-command execution. Therefore, 19.1/56 is the local data score, not the final overall challenge score.
+The organisers separately assess cost, write-up quality, and one-command execution. The data score above is not the final overall challenge score.
 
-## Current Limitations
+## 09. Current Limitations
 
-- Person and relationship identification need improvement.
-- Organisation extraction needs better contextual understanding.
-- Goal extraction is not yet producing results in the latest local run.
-- Open-loop detection requires improved precision.
+The latest local run showed that the solution still has areas requiring improvement:
+
+- Person and relationship identification need better accuracy.
+- Organisation extraction requires stronger contextual understanding.
+- Goal extraction did not produce results in the latest run.
+- Open-loop extraction needs improved precision.
 - LLM functionality was unavailable during the latest run, so the existing rule-based extraction was retained.
 
-## Future Improvements
+## 10. Future Improvements
 
-- Improve entity and relationship extraction.
-- Introduce stronger contextual goal detection.
-- Distinguish pending commitments from completed tasks more accurately.
-- Reduce false-positive task detection.
-- Improve recommendations for where an assistant can help.
-- Evaluate improvements against the provided checker.
+- Improve entity recognition and relationship mapping.
+- Develop stronger context-aware goal extraction.
+- Distinguish completed commitments from pending tasks.
+- Reduce false-positive open-loop detection.
+- Improve contextual recommendations for where an assistant can help.
+- Continue evaluation and refinement using the supplied checker.
 
-## AI-Assisted Development
+## 11. AI-Assisted Development
 
-AI tools were used as development assistants for:
+AI tools were used as development assistants throughout the project for:
 
-- Understanding the challenge requirements.
-- Planning the project structure.
-- Learning relevant concepts.
+- Understanding challenge requirements.
+- Exploring possible implementation approaches.
+- Learning relevant NLP and context-processing concepts.
 - Debugging Python and Git issues.
-- Interpreting checker results.
-- Documenting development decisions.
+- Interpreting evaluation results.
+- Improving project documentation.
 
-Relevant AI development records are maintained in the `ai-logs/` directory.
+Development records are maintained in the `ai-logs/` directory.
 
-## Data Privacy
+## 12. Data Privacy
 
-- Challenge conversation data is kept locally.
+- Challenge conversation data remains on the local machine.
 - Dataset files are excluded from Git commits.
 - Generated local outputs are excluded.
 - API keys and environment secrets are not included in the repository.
 
-## Author
+## 13. Author
 
 **Anuska Biswas**
 
-GitHub: [Anuska111](https://github.com/Anuska111)
+GitHub: [@Anuska111](https://github.com/Anuska111)
 
-Repository: [Xpert_lab](https://github.com/Anuska111/Xpert_lab)
+Project Repository: [Xpert_lab](https://github.com/Anuska111/Xpert_lab)
 
 ---
 
 <p align="center">
-  **Xpert Winter Internship Challenge · 2026**
+  <strong>Built for the Xpert Winter Internship Challenge · 2026</strong>
+  <br/>
+  <sub>Learning • Experimenting • Building • Improving</sub>
 </p>
